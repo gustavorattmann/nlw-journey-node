@@ -2,13 +2,9 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
-import dayjs from "dayjs";
 import { getMailClient } from "../lib/mail";
+import { dayjs } from "../lib/dayjs";
 import nodemailer from "nodemailer";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import "dayjs/locale/pt-br";
-dayjs.locale("pt-br");
-dayjs.extend(localizedFormat);
 
 export async function createTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -82,25 +78,22 @@ export async function createTrip(app: FastifyInstance) {
         },
         subject: `Confirme sua viagem para ${destination} em ${formattedStartDate}`,
         html: `
-        <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6">
-            <p>
-                Você solicitou a criação de uma viagem para
-                <strong>${destination}</strong> nas datas de
-                <strong>${formattedStartDate}</strong> até <strong>${formattedEndDate}</strong>.
-            </p>
-            <p></p>
-            <p>Para confirmar sua viagem, clique no link abaixo:</p>
-            <p></p>
-            <a href="${confirmationLink}">Confirmar viagem</a>
-            <p></p>
-            <p>
-                Caso esteja usando o dispositivo móvel, você também pode confirmar a criação
-                da viagem pelos aplicativos:
-            </p>
-            <p></p>
-            <p>
-                Caso você não saiba do que se trata esse e-mail, apenas ignore esse e-mail.
-            </p>
+        <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
+          <p>
+            Você solicitou a criação de uma viagem para
+            <strong>${destination}</strong> nas datas de
+            <strong>${formattedStartDate}</strong> até
+            <strong>${formattedEndDate}</strong>.
+          </p>
+          <p></p>
+          <p>Para confirmar sua viagem, clique no link abaixo:</p>
+          <p></p>
+          <a href="${confirmationLink}">Confirmar viagem</a>
+          <p></p>
+          <p>
+            Caso você não saiba do que se trata esse e-mail, apenas
+            <span style="text-decoration: underline;">ignore esse e-mail</span>.
+          </p>
         </div>
         `.trim(),
       });
