@@ -10,6 +10,7 @@ export async function updateTrip(app: FastifyInstance) {
     "/trips/:tripId",
     {
       schema: {
+        tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
         }),

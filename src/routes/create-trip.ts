@@ -13,6 +13,7 @@ export async function createTrip(app: FastifyInstance) {
     "/trips",
     {
       schema: {
+        tags: ["Trips"],
         body: z.object({
           destination: z.string().min(4),
           starts_at: z.coerce.date(),

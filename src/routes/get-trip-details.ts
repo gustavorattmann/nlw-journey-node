@@ -9,6 +9,7 @@ export async function getTripDetails(app: FastifyInstance) {
     "/trips/:tripId",
     {
       schema: {
+        tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
         }),
