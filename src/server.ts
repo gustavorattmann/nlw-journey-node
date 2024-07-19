@@ -2,47 +2,53 @@ import fastify from "fastify";
 import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
-import { env } from "./env";
+import fastifyApiReference from "@scalar/fastify-api-reference";
 import {
   jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
+import { env } from "./env";
 import { errorHandler } from "./error-handler";
 import { createTrip } from "./routes/create-trip";
-import { createActivity } from "./routes/create-activity";
-import { createLink } from "./routes/create-link";
 import { confirmTrip } from "./routes/confirm-trip";
+import { cancelTrip } from "./routes/cancel-trip";
+import { cancelParticipant } from "./routes/cancel-participant";
 import { confirmParticipant } from "./routes/confirm-participant";
+import { createActivity } from "./routes/create-activity";
+import { createInvite } from "./routes/create-invite";
+import { createLink } from "./routes/create-link";
 import { getActivities } from "./routes/get-activities";
 import { getLinks } from "./routes/get-links";
-import { getParticipants } from "./routes/get-participants";
-import { createInvite } from "./routes/create-invite";
-import { updateTrip } from "./routes/update-trip";
-import { getTripDetails } from "./routes/get-trip-details";
 import { getParticipant } from "./routes/get-participant";
-import { cancelParticipant } from "./routes/cancel-participant";
-import { updateLink } from "./routes/update-link";
-import { updateActivity } from "./routes/update-activity";
+import { getParticipants } from "./routes/get-participants";
+import { getTripDetails } from "./routes/get-trip-details";
 import { rejectParticipant } from "./routes/reject-participant";
-import { cancelTrip } from "./routes/cancel-trip";
+import { updateActivity } from "./routes/update-activity";
+import { updateLink } from "./routes/update-link";
+import { updateTrip } from "./routes/update-trip";
 
-const app = fastify();
+const app = fastify({ logger: true });
 
 app.register(cors, {
   origin: "*",
 });
 
 app.register(fastifySwagger, {
-  swagger: {
-    consumes: ["application/json"],
-    produces: ["application/json"],
+  openapi: {
+    openapi: "3.1.0",
     info: {
       title: "plann.er",
       description:
         "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
       version: "1.0.0",
     },
+    servers: [
+      {
+        url: env.API_BASE_URL,
+        description: "Development server",
+      },
+    ],
     tags: [
       {
         name: "Activities",
@@ -60,6 +66,33 @@ app.register(fastifySwagger, {
     ],
   },
   transform: jsonSchemaTransform,
+});
+
+app.get("/openapi.json", () => {
+  return app.swagger();
+});
+
+app.register(fastifyApiReference, {
+  routePrefix: "/reference",
+  configuration: {
+    title: "Teste",
+    spec: {
+      url: "/openapi.json",
+    },
+    showSidebar: true,
+    hideDownloadButton: true,
+    theme: "default",
+    metaData: {
+      title: "plann.er",
+      description:
+        "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
+      ogDescription:
+        "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
+      ogTitle: "plann.er",
+      ogImage: "https://example.com/image.png",
+      twitterCard: "summary_large_image",
+    },
+  },
 });
 
 app.register(fastifySwaggerUi, {

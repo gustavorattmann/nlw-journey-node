@@ -1,11 +1,11 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
-import nodemailer from "nodemailer";
 import { env } from "../env";
 
 export async function cancelParticipant(app: FastifyInstance) {
@@ -13,6 +13,8 @@ export async function cancelParticipant(app: FastifyInstance) {
     "/participants/:participantId/cancel",
     {
       schema: {
+        summary: "Cancel participant of trip",
+        description: "When owner need cancel participant of trip",
         tags: ["Participants"],
         params: z.object({
           participantId: z.string().uuid(),

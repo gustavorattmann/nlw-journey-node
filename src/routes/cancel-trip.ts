@@ -1,11 +1,11 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
-import nodemailer from "nodemailer";
 
 export async function cancelTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
