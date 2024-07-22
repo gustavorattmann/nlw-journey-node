@@ -7,16 +7,22 @@ import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
 import { ClientError } from "../errors/client-error";
 import { env } from "../env";
+import { defaultResponses } from "../models/default-responses";
 
 export async function confirmTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
     "/trips/:tripId/confirm",
     {
       schema: {
+        summary: "Participant confirm trip",
+        description: "When participant confirm trip",
         tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+        },
       },
     },
     async (request, reply) => {
@@ -63,7 +69,7 @@ export async function confirmTrip(app: FastifyInstance) {
               address: "oi@plann.er",
             },
             to: participant.email,
-            subject: `Confirme sua presente na viagem para ${trip.destination} em ${formattedStartDate}`,
+            subject: `Confirme sua presença na viagem para ${trip.destination} em ${formattedStartDate}`,
             html: `
             <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
               <p>

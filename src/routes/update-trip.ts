@@ -4,12 +4,15 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
 import { ClientError } from "../errors/client-error";
+import { defaultResponses } from "../models/default-responses";
 
 export async function updateTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().put(
     "/trips/:tripId",
     {
       schema: {
+        summary: "Update trip",
+        description: "When owner need update trip",
         tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
@@ -19,9 +22,17 @@ export async function updateTrip(app: FastifyInstance) {
           starts_at: z.coerce.date(),
           ends_at: z.coerce.date(),
         }),
+        response: {
+          ...defaultResponses,
+          200: z
+            .object({
+              tripId: z.string().uuid(),
+            })
+            .describe("OK"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params;
       const { destination, starts_at, ends_at } = request.body;
 
@@ -50,7 +61,7 @@ export async function updateTrip(app: FastifyInstance) {
         },
       });
 
-      return { tripId: trip.id };
+      return reply.send({ tripId: trip.id });
     }
   );
 }

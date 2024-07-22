@@ -4,12 +4,15 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
 import { ClientError } from "../errors/client-error";
+import { defaultResponses } from "../models/default-responses";
 
 export async function createActivity(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     "/trips/:tripId/activities",
     {
       schema: {
+        summary: "Create activity",
+        description: "To save a new activity",
         tags: ["Activities"],
         params: z.object({
           tripId: z.string().uuid(),
@@ -18,9 +21,17 @@ export async function createActivity(app: FastifyInstance) {
           title: z.string().min(4),
           occurs_at: z.coerce.date(),
         }),
+        response: {
+          ...defaultResponses,
+          201: z
+            .object({
+              activityId: z.string().uuid(),
+            })
+            .describe("Created"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params;
       const { title, occurs_at } = request.body;
 
@@ -44,7 +55,7 @@ export async function createActivity(app: FastifyInstance) {
         },
       });
 
-      return { activityId: activity.id };
+      return reply.status(201).send({ activityId: activity.id });
     }
   );
 }

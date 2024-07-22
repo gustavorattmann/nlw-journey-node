@@ -3,12 +3,15 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
+import { defaultResponses } from "../models/default-responses";
 
 export async function createLink(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     "/trips/:tripId/links",
     {
       schema: {
+        summary: "Create link",
+        description: "To save a new link",
         tags: ["Links"],
         params: z.object({
           tripId: z.string().uuid(),
@@ -17,9 +20,17 @@ export async function createLink(app: FastifyInstance) {
           title: z.string().min(4),
           url: z.string().url(),
         }),
+        response: {
+          ...defaultResponses,
+          201: z
+            .object({
+              linkId: z.string().uuid(),
+            })
+            .describe("Created"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params;
       const { title, url } = request.body;
 
@@ -39,7 +50,7 @@ export async function createLink(app: FastifyInstance) {
         },
       });
 
-      return { linkId: link.id };
+      return reply.status(201).send({ linkId: link.id });
     }
   );
 }

@@ -7,12 +7,15 @@ import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
 import { ClientError } from "../errors/client-error";
 import { env } from "../env";
+import { defaultResponses } from "../models/default-responses";
 
 export async function createInvite(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     "/trips/:tripId/invites",
     {
       schema: {
+        summary: "Create invite",
+        description: "To invite a new participant",
         tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
@@ -20,9 +23,17 @@ export async function createInvite(app: FastifyInstance) {
         body: z.object({
           email: z.string().email(),
         }),
+        response: {
+          ...defaultResponses,
+          201: z
+            .object({
+              participantId: z.string().uuid(),
+            })
+            .describe("Created"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params;
       const { email } = request.body;
 
@@ -54,7 +65,7 @@ export async function createInvite(app: FastifyInstance) {
           address: "oi@plann.er",
         },
         to: participant.email,
-        subject: `Confirme sua presente na viagem para ${trip.destination} em ${formattedStartDate}`,
+        subject: `Confirme sua presença na viagem para ${trip.destination} em ${formattedStartDate}`,
         html: `
             <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
               <p>
@@ -79,7 +90,7 @@ export async function createInvite(app: FastifyInstance) {
 
       console.log(nodemailer.getTestMessageUrl(message));
 
-      return { participantId: participant.id };
+      return reply.status(201).send({ participantId: participant.id });
     }
   );
 }

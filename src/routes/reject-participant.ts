@@ -4,16 +4,27 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { env } from "../env";
+import { defaultResponses } from "../models/default-responses";
 
 export async function rejectParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
     "/participants/:participantId/reject",
     {
       schema: {
+        summary: "Reject participant",
+        description: "When owner reject participant of trip",
         tags: ["Participants"],
         params: z.object({
           participantId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+          200: z
+            .object({
+              message: z.string(),
+            })
+            .describe("OK"),
+        },
       },
     },
     async (request, reply) => {

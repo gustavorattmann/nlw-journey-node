@@ -6,16 +6,27 @@ import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
+import { defaultResponses } from "../models/default-responses";
 
 export async function cancelTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
     "/trips/:tripId/cancel",
     {
       schema: {
+        summary: "Cancel trip",
+        description: "When owner need cancel trip",
         tags: ["Trips"],
         params: z.object({
           tripId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+          200: z
+            .object({
+              message: z.string(),
+            })
+            .describe("OK"),
+        },
       },
     },
     async (request, reply) => {

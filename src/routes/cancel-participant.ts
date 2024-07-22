@@ -7,6 +7,7 @@ import { ClientError } from "../errors/client-error";
 import { dayjs } from "../lib/dayjs";
 import { getMailClient } from "../lib/mail";
 import { env } from "../env";
+import { defaultResponses } from "../models/default-responses";
 
 export async function cancelParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
@@ -19,6 +20,14 @@ export async function cancelParticipant(app: FastifyInstance) {
         params: z.object({
           participantId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+          200: z
+            .object({
+              message: z.string(),
+            })
+            .describe("OK"),
+        },
       },
     },
     async (request, reply) => {

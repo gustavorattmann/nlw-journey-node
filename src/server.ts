@@ -122,6 +122,14 @@ app.register(rejectParticipant);
 app.register(updateTrip);
 app.register(getTripDetails);
 
-app.listen({ port: env.PORT }).then(() => {
-  console.log("Server running");
-});
+app.ready();
+
+app
+  .listen({ port: env.PORT })
+  .then((address) => {
+    console.log(`Server running on address: ${address}`);
+  })
+  .catch((err) => {
+    app.log.error(err);
+    process.exit(1);
+  });

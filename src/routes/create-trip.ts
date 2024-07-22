@@ -7,12 +7,15 @@ import { ClientError } from "../errors/client-error";
 import { getMailClient } from "../lib/mail";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
+import { defaultResponses } from "../models/default-responses";
 
 export async function createTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     "/trips",
     {
       schema: {
+        summary: "Create a new trip",
+        description: "When owner register new trip",
         tags: ["Trips"],
         body: z.object({
           destination: z.string().min(4),
@@ -22,9 +25,17 @@ export async function createTrip(app: FastifyInstance) {
           owner_email: z.string().email(),
           emails_to_invite: z.array(z.string().email()),
         }),
+        response: {
+          ...defaultResponses,
+          201: z
+            .object({
+              tripId: z.string().uuid(),
+            })
+            .describe("Created"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const {
         destination,
         starts_at,
@@ -103,7 +114,7 @@ export async function createTrip(app: FastifyInstance) {
 
       console.log(nodemailer.getTestMessageUrl(message));
 
-      return { tripId: trip.id };
+      return reply.status(201).send({ tripId: trip.id });
     }
   );
 }

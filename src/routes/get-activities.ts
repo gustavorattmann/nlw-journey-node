@@ -4,19 +4,42 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
 import { ClientError } from "../errors/client-error";
+import { defaultResponses } from "../models/default-responses";
 
 export async function getActivities(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
     "/trips/:tripId/activities",
     {
       schema: {
+        summary: "Get activities",
+        description: "Get list all activities",
         tags: ["Activities"],
         params: z.object({
           tripId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+          200: z
+            .object({
+              activities: z.array(
+                z.object({
+                  date: z.date(),
+                  activities: z.array(
+                    z.object({
+                      id: z.string().uuid(),
+                      title: z.string(),
+                      occurs_at: z.date(),
+                      trip_id: z.string().uuid(),
+                    })
+                  ),
+                })
+              ),
+            })
+            .describe("OK"),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params;
 
       const trip = await prisma.trip.findUnique({
@@ -52,7 +75,7 @@ export async function getActivities(app: FastifyInstance) {
         };
       });
 
-      return { activities: activities };
+      return reply.send({ activities: activities });
     }
   );
 }

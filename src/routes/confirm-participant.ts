@@ -4,16 +4,22 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { env } from "../env";
+import { defaultResponses } from "../models/default-responses";
 
 export async function confirmParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
     "/participants/:participantId/confirm",
     {
       schema: {
+        summary: "Confirm participant trip",
+        description: "When owner confirm participant trip",
         tags: ["Participants"],
         params: z.object({
           participantId: z.string().uuid(),
         }),
+        response: {
+          ...defaultResponses,
+        },
       },
     },
     async (request, reply) => {
