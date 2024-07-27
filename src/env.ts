@@ -6,7 +6,10 @@ const envSchema = z.object({
   WEB_BASE_URL: z.string().url(),
   PORT: z.coerce.number().default(3333),
   NODE_ENV: z.enum(["prod", "dev"]).default("dev"),
-  DEBUG: z.coerce.boolean().default(false),
+  DEBUG: z
+    .enum(["true", "false"])
+    .transform((val) => val === "true")
+    .default("false"),
 });
 
 export const env = envSchema.parse(process.env);
