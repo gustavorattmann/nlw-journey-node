@@ -31,11 +31,7 @@ import { updateTrip } from "./routes/update-trip";
 const serverOpenApi = () => {
   let url = env.API_BASE_URL;
 
-  if (env.PLATFORM === "vercel") {
-    url = env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_URL || url;
-  } else if (env.PLATFORM == "render") {
-    url = env.RENDER_EXTERNAL_URL || url;
-  }
+  if (env.PLATFORM == "render") url = env.RENDER_EXTERNAL_URL || url;
 
   return {
     url,

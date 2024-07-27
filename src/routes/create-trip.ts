@@ -78,10 +78,7 @@ export async function createTrip(app: FastifyInstance) {
       const formattedEndDate = dayjs(ends_at).format("LL");
 
       const confirmationLink = `${
-        env.VERCEL_PROJECT_PRODUCTION_URL ||
-        env.VERCEL_URL ||
-        env.RENDER_EXTERNAL_URL ||
-        env.API_BASE_URL
+        env.RENDER_EXTERNAL_URL || env.API_BASE_URL
       }/trips/${trip.id}/confirm`;
 
       const mail = await getMailClient();
