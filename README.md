@@ -78,7 +78,7 @@ A documentação de rotas serve para ilustrar e explicar o que cada uma das rota
 
 ### Swagger UI
 
-![Documentação Swagger UI](public/SwaggerUI.png "Documentação Swagger UI")
+![Documentação Swagger UI](public/Swagger-UI.png "Documentação Swagger UI")
 
 **Rota:**
 
