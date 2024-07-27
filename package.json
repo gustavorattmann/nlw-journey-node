@@ -5,8 +5,10 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "create-db": "prisma generate && prisma migrate deploy",
-    "build": "npm install && npm run create-db && tsc -p tsconfig.json",
+    "db:generate": "prisma generate",
+    "db:dev": "prisma migrate dev",
+    "db:prod": "prisma migrate deploy",
+    "build": "npm install && run db:generate && run db:prod && prisma studio && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
     "prod": "node api/server.js"
   },
