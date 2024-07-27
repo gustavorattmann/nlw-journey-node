@@ -34,6 +34,16 @@ Aqui é um registro das atividades que serão realizadas durante a viagem, onde 
 
 Nesta opção, é possível adicionar links relacionados a viagem. Por exemplo, o site do anúncio da hospedagem ou o site do restaurante que pretende almoçar.
 
+## Tecnologias utilizadas
+
+- **Node.JS**
+- **Typescript**
+- **Fastify**
+- **Prisma**
+- **OpenAPI**
+- **NodeMailer**
+- **SQLite**
+
 ## Rotas
 
 - [x] /trips
@@ -52,23 +62,11 @@ Nesta opção, é possível adicionar links relacionados a viagem. Por exemplo, 
 - [x] /trips/{tripId}/links
 - [x] /trips/{tripId}/links/{linkId}
 
-## Tecnologias utilizadas
-
-- **Node.JS**
-- **Typescript**
-- **Fastify**
-- **Prisma**
-- **OpenAPI**
-- **NodeMailer**
-- **SQLite**
-
 ## Documentação de Rotas
 
 A documentação de rotas serve para ilustrar e explicar o que cada uma das rotas fazem, o método e o tipo de conteúdo aceito, quais os parâmetros de entrada permitidos e a especificação do retorno, informando os dados retornados e o tipo de retorno.
 
 ### OpenAPI
-
-![Documentação OpenAPI](public/OpenAPI.png "Documentação OpenAPI")
 
 **Rota:**
 
@@ -76,15 +74,17 @@ A documentação de rotas serve para ilustrar e explicar o que cada uma das rota
 /reference
 ```
 
-### Swagger UI
+![Documentação OpenAPI](public/OpenAPI.png "Documentação OpenAPI")
 
-![Documentação Swagger UI](public/Swagger-UI.png "Documentação Swagger UI")
+### Swagger UI
 
 **Rota:**
 
 ```url
 /docs
 ```
+
+![Documentação Swagger UI](public/Swagger-UI.png "Documentação Swagger UI")
 
 ## Instruções
 
