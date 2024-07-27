@@ -6,13 +6,13 @@ import { ClientError } from "../errors/client-error";
 import { env } from "../env";
 import { defaultResponses } from "../models/default-responses";
 
-export async function rejectParticipant(app: FastifyInstance) {
+export async function ParticipantRejects(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/participants/:participantId/reject",
+    "/participants/:participantId/rejects",
     {
       schema: {
-        summary: "Reject participant",
-        description: "When owner reject participant of trip",
+        summary: "Participant rejects",
+        description: "When participant rejects trip",
         tags: ["Participants"],
         params: z.object({
           participantId: z.string().uuid(),

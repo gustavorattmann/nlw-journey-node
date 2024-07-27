@@ -23,10 +23,10 @@ import { getLinks } from "./routes/get-links";
 import { getParticipant } from "./routes/get-participant";
 import { getParticipants } from "./routes/get-participants";
 import { getTripDetails } from "./routes/get-trip-details";
-import { rejectParticipant } from "./routes/reject-participant";
 import { updateActivity } from "./routes/update-activity";
 import { updateLink } from "./routes/update-link";
 import { updateTrip } from "./routes/update-trip";
+import { ParticipantRejects } from "./routes/participant-rejects";
 
 const serverOpenApi = () => {
   let url = env.API_BASE_URL;
@@ -125,7 +125,7 @@ app.register(createInvite);
 app.register(getParticipants);
 app.register(getParticipant);
 app.register(cancelParticipant);
-app.register(rejectParticipant);
+app.register(ParticipantRejects);
 app.register(updateTrip);
 app.register(getTripDetails);
 

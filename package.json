@@ -5,15 +5,16 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "build": "npm install && tsc -p tsconfig.json",
+    "create-db": "prisma generate && prisma migrate deploy",
+    "build": "npm install && npm run create-db && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
-    "prod": "prisma generate && node api/server.js"
+    "prod": "node api/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node21": "^21.0.3",
+    "@tsconfig/node21": "^21.n0.3",
     "@types/node": "^20.14.10",
     "@types/nodemailer": "^6.4.15",
     "prisma": "^5.16.2",

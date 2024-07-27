@@ -55,7 +55,7 @@ Nesta opção, é possível adicionar links relacionados a viagem. Por exemplo, 
 - [x] /participants/{participantId}
 - [x] /participants/{participantId}/confirm
 - [x] /participants/{participantId}/cancel
-- [x] /participants/{participantId}/reject
+- [x] /participants/{participantId}/rejects
 - [x] /trips/{tripId}/activities
 - [x] /trips/{tripId}/activities
 - [x] /trips/{tripId}/activity/{activityId}
