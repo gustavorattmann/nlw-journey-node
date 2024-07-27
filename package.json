@@ -8,15 +8,15 @@
     "db:generate": "prisma generate",
     "db:dev": "prisma migrate dev",
     "db:prod": "prisma migrate deploy",
-    "build": "npm install && db:generate && db:prod && prisma studio && tsc -p tsconfig.json",
+    "build": "npm install && npm run db:generate && npm run db:prod && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
-    "prod": "node api/server.js"
+    "prod": "prisma studio && node api/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node21": "^21.n0.3",
+    "@tsconfig/node21": "^21.0.3",
     "@types/node": "^20.14.10",
     "@types/nodemailer": "^6.4.15",
     "prisma": "^5.16.2",
