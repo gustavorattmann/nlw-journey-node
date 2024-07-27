@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "npm install && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "prisma generate && node --env-file .env api/server.js"
   },
   "keywords": [],
   "author": "",
