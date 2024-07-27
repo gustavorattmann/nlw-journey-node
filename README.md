@@ -110,23 +110,32 @@ Em seguida, devemos instalar os pacotes essenciais.
 
 Execute o comando abaixo:
 
-```node
+```
 npm i
 ```
 
 ### _Como posso executar o projeto localmente na minha máquina?_
 
-Execute o comando abaixo:
+Antes de executar o projeto, é preciso criar o banco de dados com o prisma, para isso, execute esses dois comandos abaixo:
 
-```node
+```
+npm run db:generate
+npm run db:dev
+```
+
+Agora execute o comando abaixo:
+
+```
 npm run dev
 ```
+
+**Obs:** os comandos do prisma devem ser executados apenas na primeira vez, já o comando do servidor, deve ser executado sempre.
 
 ### _Como posso executar o projeto em um ambiente de produção?_
 
 Execute os comandos abaixos:
 
-```node
+```
 npm run build
 npm run prod
 ```
