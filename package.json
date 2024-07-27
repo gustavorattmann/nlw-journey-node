@@ -10,7 +10,7 @@
     "db:prod": "prisma migrate deploy",
     "build": "npm install && npm run db:generate && npm run db:prod && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
-    "prod": "prisma studio && node api/server.js"
+    "prod": "node api/server.js"
   },
   "keywords": [],
   "author": "",
