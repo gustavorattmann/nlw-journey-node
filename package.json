@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm install && tsc -p tsconfig.json",
     "dev": "tsx watch --env-file .env src/server.ts",
-    "prod": "npm run build && prisma generate && node api/server.js"
+    "prod": "prisma generate && node api/server.js"
   },
   "keywords": [],
   "author": "",
