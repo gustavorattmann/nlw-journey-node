@@ -32,7 +32,7 @@ const serverOpenApi = () => {
   let url = env.API_BASE_URL;
 
   if (env.PLATFORM === "vercel") {
-    url = env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_BRANCH_URL || url;
+    url = env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_URL || url;
   } else if (env.PLATFORM == "render") {
     url = env.RENDER_EXTERNAL_URL || url;
   }

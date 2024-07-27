@@ -59,7 +59,7 @@ export async function createInvite(app: FastifyInstance) {
 
       const confirmationLink = `${
         env.VERCEL_PROJECT_PRODUCTION_URL ||
-        env.VERCEL_BRANCH_URL ||
+        env.VERCEL_URL ||
         env.RENDER_EXTERNAL_URL ||
         env.API_BASE_URL
       }/participants/${participant.id}/confirm`;

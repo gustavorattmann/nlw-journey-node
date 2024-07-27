@@ -63,7 +63,7 @@ export async function confirmTrip(app: FastifyInstance) {
         trip.participants.map(async (participant) => {
           const confirmationLink = `${
             env.VERCEL_PROJECT_PRODUCTION_URL ||
-            env.VERCEL_BRANCH_URL ||
+            env.VERCEL_URL ||
             env.RENDER_EXTERNAL_URL ||
             env.API_BASE_URL
           }/participants/${participant.id}/confirm`;
