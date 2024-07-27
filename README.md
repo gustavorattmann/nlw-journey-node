@@ -88,9 +88,25 @@ A documentação de rotas serve para ilustrar e explicar o que cada uma das rota
 
 ## Instruções
 
-Antes de rodar o servidor localmente, é preciso instalar os pacotes essenciais.
+Este projeto está pronto para rodar localmente em sua máquina e também para hospedar no [Render](https://render.com/).
 
-_Como efetuo a instalação dos pacotes?_
+Antes de rodar o servidor, é preciso realizar alguns passos importantes para que o projeto funcione da forma correta.
+
+Crie um arquivo **.env** a partir do **.env.example** e faça as seguintes configurações:
+
+```env
+DATABASE_URL - Caminho do banco de dados utilizando SQLite
+API_BASE_URL - URL da API
+WEB_BASE_URL - URL do aplicativo WEB
+PLATFORM - Plataforma de hospedagem ("render" ou "local")
+PORT - A porta que será utilizada
+NODE_ENV - Ambiente de execução ("prod" ou "dev")
+DEBUG - Se deverá exibir um registro de execução do projeto
+```
+
+Em seguida, devemos instalar os pacotes essenciais.
+
+### _Como efetuo a instalação dos pacotes?_
 
 Execute o comando abaixo:
 
@@ -98,10 +114,19 @@ Execute o comando abaixo:
 npm i
 ```
 
-_Como posso executar o projeto localmente na minha máquina?_
+### _Como posso executar o projeto localmente na minha máquina?_
 
 Execute o comando abaixo:
 
 ```node
 npm run dev
+```
+
+### _Como posso executar o projeto em um ambiente de produção?_
+
+Execute os comandos abaixos:
+
+```node
+npm run build
+npm run prod
 ```
