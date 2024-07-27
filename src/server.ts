@@ -28,6 +28,22 @@ import { updateActivity } from "./routes/update-activity";
 import { updateLink } from "./routes/update-link";
 import { updateTrip } from "./routes/update-trip";
 
+const serverOpenApi = () => {
+  let url = env.API_BASE_URL;
+
+  if (env.PLATFORM === "vercel") {
+    url = env.VERCEL_PROJECT_PRODUCTION_URL || env.VERCEL_BRANCH_URL || url;
+  } else if (env.PLATFORM == "render") {
+    url = env.RENDER_EXTERNAL_URL || url;
+  }
+
+  return {
+    url,
+    description:
+      env.NODE_ENV === "prod" ? "Production server" : "Development server",
+  };
+};
+
 const app = fastify({ logger: env.DEBUG || false });
 
 app.register(cors, {
@@ -43,12 +59,7 @@ app.register(fastifySwagger, {
         "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
       version: "1.0.0",
     },
-    servers: [
-      {
-        url: env.API_BASE_URL,
-        description: "Development server",
-      },
-    ],
+    servers: [serverOpenApi()],
     tags: [
       {
         name: "Activities",
