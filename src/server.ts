@@ -125,7 +125,10 @@ app.register(getTripDetails);
 app.ready();
 
 app
-  .listen({ port: env.PORT, host: env.ENV == "prod" ? "0.0.0.0" : "localhost" })
+  .listen({
+    port: env.PORT,
+    host: env.NODE_ENV == "prod" ? "0.0.0.0" : "localhost",
+  })
   .then((address) => {
     console.log(`Server running on address: ${address}`);
   })
