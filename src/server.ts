@@ -28,10 +28,10 @@ import { updateActivity } from "./routes/update-activity";
 import { updateLink } from "./routes/update-link";
 import { updateTrip } from "./routes/update-trip";
 
-const app = fastify({ logger: true });
+const app = fastify({ logger: env.DEBUG || false });
 
 app.register(cors, {
-  origin: "*",
+  origin: env.WEB_BASE_URL,
 });
 
 app.register(fastifySwagger, {
@@ -125,7 +125,7 @@ app.register(getTripDetails);
 app.ready();
 
 app
-  .listen({ port: env.PORT })
+  .listen({ port: env.PORT, host: env.ENV == "prod" ? "0.0.0.0" : "localhost" })
   .then((address) => {
     console.log(`Server running on address: ${address}`);
   })
