@@ -27,6 +27,8 @@ import { updateActivity } from "./routes/update-activity";
 import { updateLink } from "./routes/update-link";
 import { updateTrip } from "./routes/update-trip";
 import { ParticipantRejects } from "./routes/participant-rejects";
+import { deleteLink } from "./routes/delete-link";
+import { deleteActivity } from "./routes/delete-activity";
 
 const serverOpenApi = () => {
   let url = env.API_BASE_URL;
@@ -118,8 +120,10 @@ app.register(confirmParticipant);
 app.register(createActivity);
 app.register(getActivities);
 app.register(updateActivity);
+app.register(deleteActivity);
 app.register(createLink);
 app.register(updateLink);
+app.register(deleteLink);
 app.register(getLinks);
 app.register(createInvite);
 app.register(getParticipants);
