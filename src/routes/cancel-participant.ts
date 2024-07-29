@@ -5,8 +5,8 @@ import nodemailer from "nodemailer";
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
 import { dayjs } from "../lib/dayjs";
-import { getMailClient } from "../lib/mail";
 import { env } from "../env";
+import { fromOptions, transportOptions } from "../lib/mail";
 import { defaultResponses } from "../models/default-responses";
 
 export async function cancelParticipant(app: FastifyInstance) {
@@ -57,35 +57,34 @@ export async function cancelParticipant(app: FastifyInstance) {
       const formattedStartDate = dayjs(participant.trip.starts_at).format("LL");
       const formattedEndDate = dayjs(participant.trip.ends_at).format("LL");
 
-      const mail = await getMailClient();
+      const transporter = nodemailer.createTransport(transportOptions);
 
-      const message = await mail.sendMail({
-        from: {
-          name: "Equipe plann.er",
-          address: "oi@plann.er",
-        },
+      const mailOptions = {
+        from: fromOptions,
         to: participant.email,
         subject: `Houve um cancelamento na sua viagem para ${participant.trip.destination} em ${formattedStartDate}`,
         html: `
-            <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6">
-                <p>
-                    Lamentamos informar que seu convite referente a viagem para
-                    <strong>${participant.trip.destination}</strong> nas datas de
-                    <strong>${formattedStartDate}</strong> até
-                    <strong>${formattedEndDate}</strong> foi cancelado.
-                </p>
-                <p>
-                    Pedimos a gentileza de entrar em contato com o responsável pela viagem para
-                    obter maiores informações.
-                </p>
-                <p>Agradecemos a compreensão!</p>
-            </div>
-            `.trim(),
+          <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6">
+            <p>
+              Lamentamos informar que seu convite referente a viagem para
+              <strong>${participant.trip.destination}</strong> nas datas de
+              <strong>${formattedStartDate}</strong> até
+              <strong>${formattedEndDate}</strong> foi cancelado.
+            </p>
+            <p>
+              Pedimos a gentileza de entrar em contato com o responsável pela viagem para
+              obter maiores informações.
+            </p>
+            <p>Agradecemos a compreensão!</p>
+          </div>
+        `.trim(),
+      };
+
+      transporter.sendMail(mailOptions, (error) => {
+        return reply.send({
+          message: `Invite canceled${error ? ", but mail not sending" : ""}.`,
+        });
       });
-
-      console.log(nodemailer.getTestMessageUrl(message));
-
-      return reply.send({ message: "Invite canceled." });
     }
   );
 }

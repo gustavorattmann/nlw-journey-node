@@ -25,6 +25,7 @@ export async function getParticipant(app: FastifyInstance) {
                 name: z.string().nullable(),
                 email: z.string().email(),
                 is_confirmed: z.boolean(),
+                is_owner: z.boolean(),
               }),
             })
             .describe("OK"),
@@ -40,6 +41,7 @@ export async function getParticipant(app: FastifyInstance) {
           name: true,
           email: true,
           is_confirmed: true,
+          is_owner: true,
         },
         where: {
           id: participantId,

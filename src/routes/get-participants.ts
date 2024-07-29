@@ -26,6 +26,7 @@ export async function getParticipants(app: FastifyInstance) {
                   name: z.string().nullable(),
                   email: z.string().email(),
                   is_confirmed: z.boolean(),
+                  is_owner: z.boolean(),
                 })
               ),
             })
@@ -47,6 +48,7 @@ export async function getParticipants(app: FastifyInstance) {
               name: true,
               email: true,
               is_confirmed: true,
+              is_owner: true,
             },
           },
         },

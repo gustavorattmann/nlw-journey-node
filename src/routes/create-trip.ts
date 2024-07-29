@@ -4,7 +4,7 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 import { env } from "process";
 import { ClientError } from "../errors/client-error";
-import { getMailClient } from "../lib/mail";
+import { fromOptions, transportOptions } from "../lib/mail";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
 import { defaultResponses } from "../models/default-responses";
@@ -81,40 +81,37 @@ export async function createTrip(app: FastifyInstance) {
         env.RENDER_EXTERNAL_URL || env.API_BASE_URL
       }/trips/${trip.id}/confirm`;
 
-      const mail = await getMailClient();
+      const transporter = nodemailer.createTransport(transportOptions);
 
-      const message = await mail.sendMail({
-        from: {
-          name: "Equipe plann.er",
-          address: "oi@plann.er",
-        },
+      const mailOptions = {
+        from: fromOptions,
         to: {
           name: owner_name,
           address: owner_email,
         },
         subject: `Confirme sua viagem para ${destination} em ${formattedStartDate}`,
         html: `
-        <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
-          <p>
-            Você solicitou a criação de uma viagem para
-            <strong>${destination}</strong> nas datas de
-            <strong>${formattedStartDate}</strong> até
-            <strong>${formattedEndDate}</strong>.
-          </p>
-          <p></p>
-          <p>Para confirmar sua viagem, clique no link abaixo:</p>
-          <p></p>
-          <a href="${confirmationLink}">Confirmar viagem</a>
-          <p></p>
-          <p>
-            Caso você não saiba do que se trata esse e-mail, apenas
-            <span style="text-decoration: underline;">ignore esse e-mail</span>.
-          </p>
-        </div>
+          <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
+            <p>
+              Você solicitou a criação de uma viagem para
+              <strong>${destination}</strong> nas datas de
+              <strong>${formattedStartDate}</strong> até
+              <strong>${formattedEndDate}</strong>.
+            </p>
+            <p></p>
+            <p>Para confirmar sua viagem, clique no link abaixo:</p>
+            <p></p>
+            <a href="${confirmationLink}">Confirmar viagem</a>
+            <p></p>
+            <p>
+              Caso você não saiba do que se trata esse e-mail, apenas
+              <span style="text-decoration: underline;">ignore esse e-mail</span>.
+            </p>
+          </div>
         `.trim(),
-      });
+      };
 
-      console.log(nodemailer.getTestMessageUrl(message));
+      transporter.sendMail(mailOptions);
 
       return reply.status(201).send({ tripId: trip.id });
     }

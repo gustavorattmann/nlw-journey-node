@@ -11,8 +11,8 @@ export async function confirmParticipant(app: FastifyInstance) {
     "/participants/:participantId/confirm",
     {
       schema: {
-        summary: "Confirm participant trip",
-        description: "When owner confirm participant trip",
+        summary: "Participant confirm trip",
+        description: "When participant confirm trip",
         tags: ["Participants"],
         params: z.object({
           participantId: z.string().uuid(),

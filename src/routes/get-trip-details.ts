@@ -26,6 +26,7 @@ export async function getTripDetails(app: FastifyInstance) {
                 destination: z.string(),
                 starts_at: z.date(),
                 ends_at: z.date(),
+                owner_id: z.string().uuid(),
               }),
             })
             .describe("OK"),
@@ -36,21 +37,35 @@ export async function getTripDetails(app: FastifyInstance) {
       const { tripId } = request.params;
 
       const trip = await prisma.trip.findUnique({
-        select: {
-          id: true,
-          destination: true,
-          starts_at: true,
-          ends_at: true,
-          is_confirmed: true,
-        },
         where: {
           id: tripId,
+        },
+        include: {
+          participants: {
+            select: {
+              id: true,
+            },
+            where: {
+              is_owner: true,
+            },
+          },
         },
       });
 
       if (!trip) throw new ClientError("Trip not found.");
 
-      return reply.send({ trip });
+      console.log(trip);
+
+      return reply.send({
+        trip: {
+          id: trip.id,
+          is_confirmed: trip.is_confirmed,
+          destination: trip.destination,
+          starts_at: trip.starts_at,
+          ends_at: trip.ends_at,
+          owner_id: trip.participants[0].id,
+        },
+      });
     }
   );
 }
