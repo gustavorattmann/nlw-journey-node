@@ -47,6 +47,8 @@ const app = fastify({ logger: env.DEBUG || false });
 
 app.register(cors, {
   origin: env.WEB_BASE_URL,
+  methods: ["GET", "PUT", "POST", "DELETE"],
+  allowedHeaders: ["Content-Type"],
 });
 
 app.register(fastifyFavicon, { path: "./public" });
