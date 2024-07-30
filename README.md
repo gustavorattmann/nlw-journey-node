@@ -4,7 +4,7 @@
 
 ## Explicação sobre o projeto
 
-Neste projeto foi criada uma API em Node.JS para realizar toda a lógica do sistema planejador de viagem. Essa API é responsável por realizar
+Neste projeto foi criada uma API em Node.JS para realizar toda a lógica do sistema planejador de viagem. Ela é responsável por realizar
 solicitações e retornar os dados esperados pelo solicitante (Lado cliente).
 
 O usuário agenda a viagem com data e local, podendo convidar outras pessoas, que precisam confirmar ou recusar presença até a data da viagem.
