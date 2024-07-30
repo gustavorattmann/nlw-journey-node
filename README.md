@@ -36,13 +36,15 @@ Nesta opção, é possível adicionar links relacionados a viagem. Por exemplo, 
 
 ## Tecnologias utilizadas
 
-- **Node.JS**
-- **Typescript**
-- **Fastify**
-- **Prisma**
-- **OpenAPI**
-- **NodeMailer**
-- **SQLite**
+- **[Node.JS](https://nodejs.org/en)**
+- **[Typescript](https://www.typescriptlang.org/)**
+- **[Fastify](https://fastify.dev/)**
+- **[Prisma](https://www.prisma.io/)**
+- **[OpenAPI](https://www.openapis.org/)**
+- **[Swagger](https://swagger.io/)**
+- **[NodeMailer](https://nodemailer.com/)**
+- **[MailTrap](https://mailtrap.io/)**
+- **[SQLite](https://www.sqlite.org/)**
 
 ## Rotas
 
