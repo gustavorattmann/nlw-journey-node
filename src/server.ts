@@ -47,7 +47,6 @@ const app = fastify({ logger: env.DEBUG || false });
 
 app.register(cors, {
   origin: env.WEB_BASE_URL,
-  methods: ["GET", "PUT", "POST", "DELETE"],
 });
 
 app.register(fastifyFavicon, { path: "./public" });
@@ -101,6 +100,10 @@ app.register(fastifyApiReference, {
         "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
     },
   },
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
 });
 
 app.setValidatorCompiler(validatorCompiler);
