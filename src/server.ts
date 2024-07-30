@@ -49,6 +49,7 @@ app.register(cors, {
   origin: env.WEB_BASE_URL,
   methods: ["GET", "PUT", "POST", "DELETE"],
   allowedHeaders: ["Content-Type"],
+  credentials: true,
 });
 
 app.register(fastifyFavicon, { path: "./public" });
