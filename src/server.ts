@@ -46,7 +46,7 @@ const serverOpenApi = () => {
 const app = fastify({ logger: env.DEBUG || false });
 
 app.register(cors, {
-  origin: env.WEB_BASE_URL,
+  origin: "*",
 });
 
 app.register(fastifyFavicon, { path: "./public" });
