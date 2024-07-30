@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
+import fastifyFavicon from "fastify-favicon";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyApiReference from "@scalar/fastify-api-reference";
@@ -48,6 +49,8 @@ app.register(cors, {
   origin: env.WEB_BASE_URL,
 });
 
+app.register(fastifyFavicon, { path: "./public" });
+
 app.register(fastifySwagger, {
   openapi: {
     openapi: "3.1.0",
@@ -95,11 +98,6 @@ app.register(fastifyApiReference, {
       title: "plann.er",
       description:
         "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
-      ogDescription:
-        "Especificações da API para o back-end da aplicação plann.er construída durante o NLW Journey da Rocketseat.",
-      ogTitle: "plann.er",
-      ogImage: "https://example.com/image.png",
-      twitterCard: "summary_large_image",
     },
   },
 });
