@@ -32,7 +32,7 @@ import { deleteLink } from "./routes/delete-link";
 import { deleteActivity } from "./routes/delete-activity";
 
 const serverOpenApi = () => {
-  let url = env.API_BASE_URL;
+  let url = env?.API_BASE_URL;
 
   if (env.PLATFORM == "render") url = env.RENDER_EXTERNAL_URL || url;
 
