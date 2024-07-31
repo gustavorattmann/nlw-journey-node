@@ -2,13 +2,13 @@ import { CronJob } from "cron";
 import https from "https";
 import { env } from "./env";
 
-const job = new CronJob(
-  "*/14 * * * *",
-  () => {
+const job = CronJob.from({
+  cronTime: "*/14 * * * *",
+  onTick: () => {
     console.log("Restarting server...");
 
     https
-      .get(env.RENDER_EXTERNAL_URL || env.API_BASE_URL, (res) => {
+      .get(env.API_BASE_URL + "/reference", (res) => {
         if (res.statusCode === 200) {
           console.log("Server restarted!");
         } else {
@@ -21,8 +21,7 @@ const job = new CronJob(
         console.log("Error during restart:", err.message);
       });
   },
-  null,
-  true
-);
+  start: true,
+});
 
 export { job };

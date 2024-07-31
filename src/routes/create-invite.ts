@@ -56,7 +56,7 @@ export async function createInvite(app: FastifyInstance) {
       const formattedEndDate = dayjs(trip.ends_at).format("LL");
 
       const confirmationLink = `${
-        env.RENDER_EXTERNAL_URL || env.API_BASE_URL
+        env?.RENDER_EXTERNAL_URL || env.API_BASE_URL
       }/participants/${participant.id}/confirm`;
 
       const transporter = nodemailer.createTransport(transportOptions);

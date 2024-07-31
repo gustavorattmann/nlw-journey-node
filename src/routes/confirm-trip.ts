@@ -62,7 +62,7 @@ export async function confirmTrip(app: FastifyInstance) {
       await Promise.all(
         trip.participants.map(async (participant) => {
           const confirmationLink = `${
-            env.RENDER_EXTERNAL_URL || env.API_BASE_URL
+            env?.RENDER_EXTERNAL_URL || env.API_BASE_URL
           }/participants/${participant.id}/confirm`;
 
           const mailOptions = {
