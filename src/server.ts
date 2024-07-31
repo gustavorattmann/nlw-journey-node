@@ -30,6 +30,7 @@ import { updateTrip } from "./routes/update-trip";
 import { ParticipantRejects } from "./routes/participant-rejects";
 import { deleteLink } from "./routes/delete-link";
 import { deleteActivity } from "./routes/delete-activity";
+import { job } from "./cron";
 
 const serverOpenApi = () => {
   let url = env.API_BASE_URL;
@@ -140,6 +141,7 @@ app
   })
   .then((address) => {
     console.log(`Server running on address: ${address}`);
+    job.start();
   })
   .catch((err) => {
     app.log.error(err);
