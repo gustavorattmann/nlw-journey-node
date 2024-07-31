@@ -11,7 +11,7 @@ import { defaultResponses } from "../models/default-responses";
 
 export async function createTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/trips",
+    "/api/trips",
     {
       schema: {
         summary: "Create a new trip",
